@@ -44,6 +44,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #conn.commit()
 
     return func.HttpResponse(
-        req.get_json(),
+        req.get_body(),
         status_code=200
     )
