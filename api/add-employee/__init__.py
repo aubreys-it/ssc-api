@@ -1,26 +1,46 @@
 import os
 import logging
-import json
 import pyodbc
-import azure.functions as func
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    name = req.params.get('name')
-    if not name:
-        try:
-            req_body = req.get_json()
-        except ValueError:
-            pass
-        else:
-            name = req_body.get('name')
+    try:
+        req_body = req.get_json()
+    except ValueError:
+        pass
 
-    if name:
-        return func.HttpResponse('nada')
-    else:
-        return func.HttpResponse(
-             req_body['emailAddress'],
-             status_code=200
-        )
+    sql = "INSERT INTO ssc.insert_server_info VALUES "
+    sql += "('" + req_body['firstName'] + "'),"
+    sql += "('" + req_body['lastName'] + "'),"
+    sql += "('" + req_body['displayName'] + "'),"
+    sql += "('" + req_body['phone'] + "'),"
+    sql += "('" + req_body['emailAddress'] + "'),"
+    sql += "('" + req_body['abcExpirationDate'] + "'),"
+    sql += "(" + req_body['monAM'] + "),"
+    sql += "(" + req_body['monPM'] + "),"
+    sql += "(" + req_body['tueAM'] + "),"
+    sql += "(" + req_body['tuePM'] + "),"
+    sql += "(" + req_body['wedAM'] + "),"
+    sql += "(" + req_body['wedPM'] + "),"
+    sql += "(" + req_body['thuAM'] + "),"
+    sql += "(" + req_body['thuPM'] + "),"
+    sql += "(" + req_body['friAM'] + "),"
+    sql += "(" + req_body['friPM'] + "),"
+    sql += "(" + req_body['satAM'] + "),"
+    sql += "(" + req_body['satPM'] + "),"
+    sql += "(" + req_body['sunAM'] + "),"
+    sql += "(" + req_body['sunPM'] + "),"
+    sql += "('" + req_body['tfd'] + "'),"
+    sql += "('" + req_body['ttd'] + "');"
+    
+    conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
+    cursor = conn.cursor()
+    count = cursor.execute(sql)
+    conn.commit()
+
+    return func.HttpResponse(
+        count,
+        status_code=200
+    )
