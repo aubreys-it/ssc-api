@@ -2,8 +2,6 @@ import os
 import logging
 import json
 import pyodbc
-from flask import Flask
-
 import azure.functions as func
 
 
@@ -23,6 +21,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse('nada')
     else:
         return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
+             req_body,
              status_code=200
         )
