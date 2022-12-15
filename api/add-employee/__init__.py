@@ -13,7 +13,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     except ValueError:
         pass
     else:
-        req_body = {}
+        req_body = req.get_body()
 
     items = []
     quotedItems = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpireDate', 'tfd', 'ttd']
@@ -44,6 +44,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #conn.commit()
 
     return func.HttpResponse(
-        req.get_body(),
+        req_body,
         status_code=200
     )
