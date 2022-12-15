@@ -12,6 +12,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         pass
 
     sql = "INSERT INTO ssc.insert_server_info VALUES "
+    sql += "(" + req_body['locId'] + "),"
     sql += "('" + req_body['firstName'] + "'),"
     sql += "('" + req_body['lastName'] + "'),"
     sql += "('" + req_body['displayName'] + "'),"
