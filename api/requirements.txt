@@ -4,4 +4,3 @@
 
 pyodbc
 azure-functions
-json
