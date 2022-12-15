@@ -1,6 +1,7 @@
 import os
 import logging
 import pyodbc
+import json
 import azure.functions as func
 
 
@@ -11,6 +12,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         req_body = req.get_json()
     except ValueError:
         pass
+    else:
+        req_body = {}
 
     items = []
     quotedItems = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpireDate', 'tfd', 'ttd']
