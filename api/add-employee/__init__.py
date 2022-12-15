@@ -21,6 +21,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         return func.HttpResponse('nada')
     else:
         return func.HttpResponse(
-             req_body,
+             req_body['emailAddress'],
              status_code=200
         )
