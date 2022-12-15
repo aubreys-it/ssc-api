@@ -18,7 +18,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     items = []
     quotedItems = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpireDate', 'tfd', 'ttd']
 
-    for item in req_body:
+    for item in req_body.items:
         items.append(item)
 
     sql = "INSERT INTO ssc.insert_server_info ("
