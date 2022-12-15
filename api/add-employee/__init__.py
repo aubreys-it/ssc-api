@@ -13,8 +13,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     except ValueError:
         pass
     else:
-        req_body = req.get_body()
+        req_body = json.dumps(req.get_body())
 
+    """
     items = []
     quotedItems = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpireDate', 'tfd', 'ttd']
 
@@ -42,7 +43,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #cursor = conn.cursor()
     #count = cursor.execute(sql)
     #conn.commit()
-
+    """
     return func.HttpResponse(
         req_body,
         status_code=200
