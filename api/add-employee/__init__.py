@@ -15,7 +15,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     else:
         req_body = req.get_body()
 
-    emailAddress=req_body.getitem('emailAddress')
+    emailAddress=req_body.get('emailAddress')
 
     """
     items = []
