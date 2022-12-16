@@ -13,7 +13,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     except ValueError:
         pass
     else:
-        req_body = json.dumps(req.get_body())
+        req_body = req.get_body()
 
     """
     items = []
