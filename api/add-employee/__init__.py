@@ -46,12 +46,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     sql += ");"
     
     
-    #conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
-    #cursor = conn.cursor()
-    #count = cursor.execute(sql)
-    #conn.commit()
+    conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
+    cursor = conn.cursor()
+    count = cursor.execute(sql)
+    conn.commit()
     
     return func.HttpResponse(
-        os.environ['DMCP_CONNECT_STRING'],
+        "success",
         status_code=200
     )
