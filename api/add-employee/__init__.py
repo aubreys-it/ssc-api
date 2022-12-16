@@ -17,11 +17,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     emailAddress=req_body.get('emailAddress')
 
-    """
     items = []
     quotedItems = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpireDate', 'tfd', 'ttd']
+    unQuotedItems = ['locId', 'monAM', 'monPM', 'tueAM', 'tuePM', 'wedAM', 'wedPM', 'thuAM', 'thuPM', 'friAM', 'friPM', 'satAM', 'satPM', 'sunAM', 'sunPM']
+    possItems = quotedItems + unQuotedItems
 
-    for item in req_body:
+    itemDict = {}
+    for item in possItems:
+        itemDict[item] = req_body.get(item)
+
+    for item in itemDict:
         items.append(item)
 
     sql = "INSERT INTO ssc.insert_server_info ("
@@ -32,9 +37,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     for item in items:
         if item in quotedItems:
-            sql += "'" + req_body[item] + "',"
+            sql += "'" + itemDict[item] + "',"
         else:
-            sql += req_body[item] + ","
+            sql += itemDict[item] + ","
 
     sql = sql[:len(sql)-1]
 
@@ -45,8 +50,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #cursor = conn.cursor()
     #count = cursor.execute(sql)
     #conn.commit()
-    """
+    
     return func.HttpResponse(
-        emailAddress,
+        sql,
         status_code=200
     )
