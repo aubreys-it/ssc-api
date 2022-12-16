@@ -27,6 +27,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if req.params.get(item):
             itemDict[item] = req.params.get(item)
         else:
+            
             itemDict[item] = 'NULL'
 
     for item in itemDict:
