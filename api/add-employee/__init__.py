@@ -9,7 +9,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     items = []
-    quotedItems = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpireDate', 'tfd', 'ttd']
+    quotedItems = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpire', 'tfd', 'ttd']
     unQuotedItems = ['locId', 'monAM', 'monPM', 'tueAM', 'tuePM', 'wedAM', 'wedPM', 'thuAM', 'thuPM', 'friAM', 'friPM', 'satAM', 'satPM', 'sunAM', 'sunPM']
     possItems = quotedItems + unQuotedItems
 
