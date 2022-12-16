@@ -11,7 +11,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     for field in fields:
         fieldDict[field] = req.params.get(field)
 
-        if field not in fieldDict:
+        if not req.params.get(field):
             try:
                 req_body = req.get_json()
             except ValueError:
