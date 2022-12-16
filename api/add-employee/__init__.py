@@ -36,7 +36,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     sql = sql[:len(sql)-1] + ") VALUES ("
 
     for item in items:
-        if item in quotedItems:
+        if item in quotedItems and item in itemDict:
             sql += "'" + itemDict[item] + "',"
         else:
             sql += itemDict[item] + ","
