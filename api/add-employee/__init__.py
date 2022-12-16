@@ -24,7 +24,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     itemDict = {}
     for item in possItems:
-        itemDict[item] = req.params.get(item)
+        if req.params.get(item):
+            itemDict[item] = req.params.get(item)
+        else:
+            itemDict[item] = 'NULL'
 
     for item in itemDict:
         items.append(item)
