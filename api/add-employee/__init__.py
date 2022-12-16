@@ -45,6 +45,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #conn.commit()
     """
     return func.HttpResponse(
-        print(f"Request Body: {req_body}"),
+        req_body['emailAddress'],
         status_code=200
     )
