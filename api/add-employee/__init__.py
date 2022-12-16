@@ -15,6 +15,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     else:
         req_body = req.get_body()
 
+    emailAddress=req_body.getitem('emailAddress')
+
     """
     items = []
     quotedItems = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpireDate', 'tfd', 'ttd']
@@ -45,6 +47,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #conn.commit()
     """
     return func.HttpResponse(
-        req_body['emailAddress'],
+        emailAddress,
         status_code=200
     )
