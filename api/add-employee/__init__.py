@@ -8,27 +8,23 @@ import azure.functions as func
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    """
-    try:
-        req_body = req.get_json()
-    except ValueError:
-        pass
-    else:
-        req_body = req.get_body()
-    """
-
     items = []
     quotedItems = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpireDate', 'tfd', 'ttd']
     unQuotedItems = ['locId', 'monAM', 'monPM', 'tueAM', 'tuePM', 'wedAM', 'wedPM', 'thuAM', 'thuPM', 'friAM', 'friPM', 'satAM', 'satPM', 'sunAM', 'sunPM']
     possItems = quotedItems + unQuotedItems
 
     itemDict = {}
+    
     for item in possItems:
-        if req.params.get(item):
-            itemDict[item] = req.params.get(item)
-        else:
-            
-            itemDict[item] = 'NULL'
+        itemDict[item] = req.params.get(item)
+
+        if not req.params.get(item):
+            try:
+                req_body = req.get_json()
+            except ValueError:
+                pass
+            else:
+                itemDict[item] = req_body.get(item)
 
     for item in itemDict:
         items.append(item)
