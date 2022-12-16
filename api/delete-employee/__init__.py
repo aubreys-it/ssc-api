@@ -6,9 +6,12 @@ import azure.functions as func
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    name = req.params.get('name')
-    city = req.params.get("city")
-    req_body = req.get_json()
+    #name = req.params.get('name')
+    #city = req.params.get("city")
+    #req_body = req.get_json()
+    req_body = req.get_body()
+    name = req_body.get('name')
+    city = req_body.get('city')
     """
     if not name:
         try:
