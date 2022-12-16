@@ -8,6 +8,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     name = req.params.get('name')
     city = req.params.get("city")
+    req_body = req.get_json()
     """
     if not name:
         try:
