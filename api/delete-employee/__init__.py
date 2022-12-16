@@ -8,6 +8,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     name = req.params.get('name')
     city = req.params.get("city")
+    """
     if not name:
         try:
             req_body = req.get_json()
@@ -16,7 +17,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         else:
             name = req_body.get('name')
             city = req_body.get('city')
-
+    """
     if name:
         return func.HttpResponse(f"Hello, {name}. You live in {city}!")
     else:
