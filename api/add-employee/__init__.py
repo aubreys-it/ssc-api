@@ -16,7 +16,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     itemDict = {}
     
     for item in possItems:
-        itemDict[item] = req.params.get(item)
+        itemDict[item] = str(req.params.get(item))
 
         if not req.params.get(item):
             try:
@@ -24,7 +24,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             except ValueError:
                 pass
             else:
-                itemDict[item] = req_body.get(item)
+                itemDict[item] = str(req_body.get(item))
 
     for item in itemDict:
         items.append(item)
@@ -36,11 +36,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     sql = sql[:len(sql)-1] + ") VALUES ("
 
     for item in items:
-        if item in itemDict:
-            if item in quotedItems:
-                sql += "'" + itemDict[item] + "',"
-            else:
-                sql += itemDict[item] + ","
+        if item in quotedItems:
+            sql += "'" + itemDict[item] + "',"
+        else:
+            sql += itemDict[item] + ","
 
     sql = sql[:len(sql)-1]
 
