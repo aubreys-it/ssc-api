@@ -45,7 +45,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     #conn.commit()
     """
     return func.HttpResponse(
-        json_dumps(req_body),
+        json.dumps(req_body),
         mimetype="application/json",
         status_code=200
     )
