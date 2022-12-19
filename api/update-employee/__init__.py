@@ -50,10 +50,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 fieldDict[field] = str(req_body.get(field))
 
     for field in fieldDict:
-        fields.append(field)
+        if fieldDict[field] != 'None':
+            fields.append(field)
 
     if 'empId' in fieldDict:
-        sql = "UPDATE ssc.server info SET "
+        sql = "UPDATE ssc.server_info SET "
         
         for field in fields:
             if field != 'empId':
