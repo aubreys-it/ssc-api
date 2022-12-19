@@ -65,13 +65,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         sql = sql[:len(sql)-1]
         sql += ' WHERE empId=' + fieldDict['empId'] + ';'
 
-        conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
-        cursor = conn.cursor()
-        cursor.execute(sql)
-        conn.commit()
+        #conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
+        #cursor = conn.cursor()
+        #cursor.execute(sql)
+        #conn.commit()
     
         return func.HttpResponse(
-            "success",
+            sql,
             status_code=200
         )
     else:
