@@ -1,7 +1,6 @@
 import os
 import logging
 import pyodbc
-import json
 import azure.functions as func
 
 
