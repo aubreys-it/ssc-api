@@ -1,43 +1,28 @@
 import logging
-import json
+import os
+import pyodbc
 import azure.functions as func
 
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
-    fields = ['name', 'city']
-    fieldDict = {}
-    for field in fields:
-        fieldDict[field] = req.params.get(field)
-
-        if not req.params.get(field):
-            try:
-                req_body = req.get_json()
-            except ValueError:
-                pass
-            else:
-                fieldDict[field] = req_body.get(field)
-
-    """
-    name = req.params.get('name')
-    city = req.params.get("city")
-    if not name:
+    
+    empId = req.params.get('empId')
+    if not empId:
         try:
             req_body = req.get_json()
         except ValueError:
             pass
         else:
-            name = req_body.get('name')
-            city = req_body.get('city')
-    """
+            empId = req_body.get('empId')
+    
+    if empId:
+        sql = 'DELETE FROM ssc.server_info WHERE empId=' + empId + ';'
 
-    #if name:
-    if 'name' in fieldDict:
-        #return func.HttpResponse(f"Hello, {name}. You live in {city}!")
-        return func.HttpResponse(f"Hello, {fieldDict['name']}. You live in {fieldDict['city']}!")
-    else:
-        return func.HttpResponse(
-             "This HTTP triggered function executed successfully. Pass a name in the query string or in the request body for a personalized response.",
-             status_code=200
-        )
+        conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
+        cursor = conn.cursor()
+        cursor.execute(sql)
+        conn.commit()
+        
+        return func.HttpResponse(f"success")
