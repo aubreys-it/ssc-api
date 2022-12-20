@@ -32,19 +32,19 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     conn.close()
 
     for row in records:
-        if not row['shiftNameDisplay'] in jsonDict:
-            jsonDict[row['shiftNameDisplay']] = {}
-            jsonDict[row['shiftNameDisplay']]['shiftDay'] = row['shiftDay']
-            jsonDict[row['shiftNameDisplay']]['shiftPart'] = row['dayPart']
-            jsonDict[row['shiftNameDisplay']]['shiftDate'] = row['shiftDate']
-            jsonDict[row['shiftNameDisplay']]['servers'] = []
+        if not row[6] in jsonDict:
+            jsonDict[row[6]] = {}
+            jsonDict[row[6]]['shiftDay'] = row[7]
+            jsonDict[row[6]]['shiftPart'] = row[8]
+            jsonDict[row[6]]['shiftDate'] = row[5]
+            jsonDict[row[6]]['servers'] = []
 
         serverDict = {}
-        serverDict['locId'] = row['locId']
-        serverDict['empId'] = row['empId']
-        serverDict['displayName'] = row['displayName']
-        serverDict['shiftNumber'] = row['shiftNumber']
-        serverDict['shiftDisplay'] = row['shiftDisplay']
+        serverDict['locId'] = row[0]
+        serverDict['empId'] = row[1]
+        serverDict['displayName'] = row[2]
+        serverDict['shiftNumber'] = row[3]
+        serverDict['shiftDisplay'] = row[4]
 
         jsonDict[row['shiftNameDisplay']]['servers'].append(serverDict)
 
