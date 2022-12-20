@@ -9,7 +9,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
     locId = req.params.get('locId')
-    weekStart = req.param.get('weekStart')
+    weekStart = req.params.get('weekStart')
     if not locId and weekStart:
         try:
             req_body = req.get_json()
