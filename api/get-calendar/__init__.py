@@ -46,7 +46,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         serverDict['shiftNumber'] = row[3]
         serverDict['shiftDisplay'] = row[4]
 
-        jsonDict[row['shiftNameDisplay']]['servers'].append(serverDict)
+        jsonDict[row[6]]['servers'].append(serverDict)
 
     if jsonDict:
         return func.HttpResponse(json.dumps(jsonDict))
