@@ -10,13 +10,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     locId = req.params.get('locId')
     weekStart = req.param.get('weekStart')
-    if not locId:
+    if not locId and weekStart:
         try:
             req_body = req.get_json()
         except ValueError:
             pass
         else:
-            name = req_body.get('locId')
+            locId = req_body.get('locId')
+            weekStart = req_body.get('weekStart')
 
     weekStartDate = weekStart[:4] + '-' + weekStart[4:6] + '-' + weekStart[6:8]
     jsonDict = {}
