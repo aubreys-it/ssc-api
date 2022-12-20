@@ -32,7 +32,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     conn.close()
 
     for row in records:
-        if not row[6] in jsonDict:
+        if not row[6] in jsonDict.keys():
             jsonDict[row[6]] = {}
             jsonDict[row[6]]['shiftDay'] = row[7]
             jsonDict[row[6]]['shiftPart'] = row[8]
