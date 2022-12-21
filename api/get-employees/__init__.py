@@ -4,7 +4,6 @@ import pyodbc
 import json
 import azure.functions as func
 
-
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
 
@@ -18,7 +17,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             locId = req_body.get('locId')
             
     servers = {}
-    sql = "SELECT * FROM ssc.server_info WHERE locId=" + locId + " AND ttd='9999-12-31' ORDER BY empId;"
+    sql = "SELECT * FROM ssc.server_info WHERE locId=" + locId + " AND ttd='9999-12-31' ORDER BY lastName, firstName;"
 
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
@@ -27,33 +26,38 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     cursor.close()
     conn.close()
 
+    rowId = 0
+
     for row in rows:
-        if row[0] not in servers.keys():
-            servers[row[0]]={}
-            servers[row[0]]['locId']=row[1]
-            servers[row[0]]['firstName']=row[2]
-            servers[row[0]]['lastName']=row[3]
-            servers[row[0]]['displayName']=row[4]
-            servers[row[0]]['phone']=row[5]
-            servers[row[0]]['emailAddress']=row[6]
-            servers[row[0]]['abcExpire']=str(row[7])
-            servers[row[0]]['monAM']=row[8]
-            servers[row[0]]['monPM']=row[9]
-            servers[row[0]]['tueAM']=row[10]
-            servers[row[0]]['tuePM']=row[11]
-            servers[row[0]]['wedAM']=row[12]
-            servers[row[0]]['wedPM']=row[13]
-            servers[row[0]]['thuAM']=row[14]
-            servers[row[0]]['thuPM']=row[15]
-            servers[row[0]]['friAM']=row[16]
-            servers[row[0]]['friPM']=row[17]
-            servers[row[0]]['satAM']=row[18]
-            servers[row[0]]['satPM']=row[19]
-            servers[row[0]]['sunAM']=row[20]
-            servers[row[0]]['sunPM']=row[21]
-            servers[row[0]]['tfd']=row[22]
-            servers[row[0]]['ttd']=row[23]
-            servers[row[0]]['abcBookLocation']=row[24]
+        if rowId not in servers.keys():
+            servers[rowId]={}
+            servers[rowId]['empId']=row[0]
+            servers[rowId]['locId']=row[1]
+            servers[rowId]['firstName']=row[2]
+            servers[rowId]['lastName']=row[3]
+            servers[rowId]['displayName']=row[4]
+            servers[rowId]['phone']=row[5]
+            servers[rowId]['emailAddress']=row[6]
+            servers[rowId]['abcExpire']=str(row[7])
+            servers[rowId]['monAM']=row[8]
+            servers[rowId]['monPM']=row[9]
+            servers[rowId]['tueAM']=row[10]
+            servers[rowId]['tuePM']=row[11]
+            servers[rowId]['wedAM']=row[12]
+            servers[rowId]['wedPM']=row[13]
+            servers[rowId]['thuAM']=row[14]
+            servers[rowId]['thuPM']=row[15]
+            servers[rowId]['friAM']=row[16]
+            servers[rowId]['friPM']=row[17]
+            servers[rowId]['satAM']=row[18]
+            servers[rowId]['satPM']=row[19]
+            servers[rowId]['sunAM']=row[20]
+            servers[rowId]['sunPM']=row[21]
+            servers[rowId]['tfd']=str(row[22])
+            servers[rowId]['ttd']=str(row[23])
+            servers[rowId]['abcBookLocation']=row[24]
+
+            rowId += 1
 
     if servers:
         return func.HttpResponse(json.dumps(servers))
