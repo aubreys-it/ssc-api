@@ -37,15 +37,22 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             jsonDict[row[6]]['shiftPart'] = row[8]
             jsonDict[row[6]]['shiftDate'] = str(row[5])
             jsonDict[row[6]]['servers'] = []
+            jsonDict[row[6]]['togo'] = []
+            jsonDict[row[6]]['bartenders'] = []
 
-        serverDict = {}
-        serverDict['locId'] = row[0]
-        serverDict['empId'] = row[1]
-        serverDict['displayName'] = row[2]
-        serverDict['shiftNumber'] = row[3]
-        serverDict['shiftDisplay'] = row[4]
+        shiftDict = {}
+        shiftDict['locId'] = row[0]
+        shiftDict['empId'] = row[1]
+        shiftDict['displayName'] = row[2]
+        shiftDict['shiftNumber'] = row[3]
+        shiftDict['shiftDisplay'] = row[4]
 
-        jsonDict[row[6]]['servers'].append(serverDict)
+        if row[9] == 'server':
+            jsonDict[row[6]]['servers'].append(shiftDict)
+        elif row[9] == 'bar':
+            jsonDict[row[6]]['bartenders'].append(shiftDict)
+        elif row[9] == 'togo':
+            jsonDict[row[6]]['togo'].append(shiftDict)
 
     if jsonDict:
         return func.HttpResponse(json.dumps(jsonDict))
