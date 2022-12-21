@@ -58,7 +58,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         conn.close()
 
         return func.HttpResponse(
-                "success",
+                sql,
                 status_code=200
             )
     else:
