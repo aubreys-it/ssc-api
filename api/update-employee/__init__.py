@@ -72,7 +72,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         conn.commit()
     
         return func.HttpResponse(
-            sql,
+            "success",
             status_code=200
         )
     else:
