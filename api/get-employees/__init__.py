@@ -20,7 +20,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     servers = {}
     sql = "SELECT * FROM ssc.server_info WHERE locId=" + locId + " AND ttd='9999-12-31' ORDER BY empId;"
 
-    conn = pyodbc.connect(os.environ['DMMCP_CONNECT_STRING'])
+    conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
     cursor.execute(sql)
     rows = cursor.fetchall()
