@@ -31,10 +31,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         'sunAM',
         'sunPM',
         'tfd',
-        'ttd'
+        'ttd',
+        'abcBookLocation'
     ]
 
-    quotedFields = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpire', 'tfd', 'ttd']
+    quotedFields = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpire', 'tfd', 'ttd', 'abcBookLocation']
     fields = []
     fieldDict = {}
 
