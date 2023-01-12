@@ -47,6 +47,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     sql += ");"
     
+    logging.info(sql)
     
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
