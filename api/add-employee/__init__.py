@@ -36,7 +36,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     for item in items:
         if item in quotedItems:
-            if item == 'abcExpire' and itemDict[item] == '':
+            if item == 'abcExpire' and itemDict[item] == 'None':
                 sql += "NULL, "
             else:
                 sql += "'" + itemDict[item] + "',"
