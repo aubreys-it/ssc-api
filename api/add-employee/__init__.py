@@ -36,7 +36,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     for item in items:
         if item in quotedItems:
-            if item == 'abcExpire' and itemDict[item] == 'None':
+            if itemDict[item] == 'None':
                 sql += "NULL, "
             else:
                 sql += "'" + itemDict[item] + "',"
@@ -46,8 +46,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     sql = sql[:len(sql)-1]
 
     sql += ");"
-    
-    logging.info(sql)
     
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
