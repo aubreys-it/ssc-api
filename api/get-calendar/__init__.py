@@ -34,8 +34,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     
     for row in records:
         if not row[7] in jsonDict.keys():
-            jsonDict[row[7]] = {}
-            jsonDict[row[7]]['dayPart'] = {1: {}, 2: {}}
+            jsonDict[row[7]] = {1: {}, 2: {}}
             
             for dayPart in jsonDict[row[7]]:
                 jsonDict[row[7]][dayPart]['servers'] = []
@@ -43,17 +42,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 jsonDict[row[7]][dayPart]['bartenders'] = []
                 
             jsonDict[row[7]]['dayName'] = daysOfWeek[row[7] - 1]
-        
-        '''
-        if not row[7] in jsonDict.keys():
-            jsonDict[row[7]] = {}
-            jsonDict[row[7]]['shiftDay'] = row[7]
-            jsonDict[row[7]]['shiftPart'] = row[8]
-            jsonDict[row[7]]['shiftDate'] = str(row[5])
-            jsonDict[row[7]]['servers'] = []
-            jsonDict[row[7]]['togo'] = []
-            jsonDict[row[7]]['bartenders'] = []
-        '''
         
         shiftDict = {}
         shiftDict['locId'] = row[0]
@@ -67,7 +55,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         elif row[9] == 'bar':
             jsonDict[row[7]][row[8]]['bartenders'].append(shiftDict)
         elif row[9] == 'togo':
-            jsonDict[row[7]][row[8]]['togo'].append(shiftDict)
+            jsonDict[row[7]][row[8]]['togo']['employees'].append(shiftDict)
 
     if jsonDict:
         return func.HttpResponse(json.dumps(jsonDict))
