@@ -18,7 +18,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         'togoInTime'
     ]
 
-    quotedFields = ['togo', 'bartenders', 'inTimes', 'togoInTime'] 
+    quotedFields = ['togo', 'bartenders', 'inTimes', 'togoInTime', 'togoInTime'] 
     fields = []
     fieldDict = {}
 
