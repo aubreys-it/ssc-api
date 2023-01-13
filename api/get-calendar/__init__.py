@@ -30,16 +30,33 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     cursor.close()
     conn.close()
 
+    daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    
     for row in records:
-        if not row[6] in jsonDict.keys():
-            jsonDict[row[6]] = {}
-            jsonDict[row[6]]['shiftDay'] = row[7]
-            jsonDict[row[6]]['shiftPart'] = row[8]
-            jsonDict[row[6]]['shiftDate'] = str(row[5])
-            jsonDict[row[6]]['servers'] = []
-            jsonDict[row[6]]['togo'] = []
-            jsonDict[row[6]]['bartenders'] = []
-
+        if not row[7] in jsonDict.keys():
+            jsonDict[row[7]] = {}
+            jsonDict[row[7]]['dayPart'] = {1: {}, 2: {}}
+            
+            for dayPart in jsonDict[row[7]]:
+                jsonDict[row[7]][dayPart]['servers'] = []
+                jsonDict[row[7]][dayPart]['togo'] = {'inTime': '', 'employees': []}
+                jsonDict[row[7]][dayPart]['bartenders'] = []
+                
+            jsonDict[row[7]]['dayName'] = daysOfWeek[row[7] - 1]
+        
+    
+    for row in records:
+        '''
+        if not row[7] in jsonDict.keys():
+            jsonDict[row[7]] = {}
+            jsonDict[row[7]]['shiftDay'] = row[7]
+            jsonDict[row[7]]['shiftPart'] = row[8]
+            jsonDict[row[7]]['shiftDate'] = str(row[5])
+            jsonDict[row[7]]['servers'] = []
+            jsonDict[row[7]]['togo'] = []
+            jsonDict[row[]]['bartenders'] = []
+        '''
+        
         shiftDict = {}
         shiftDict['locId'] = row[0]
         shiftDict['empId'] = row[1]
@@ -48,11 +65,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         shiftDict['shiftDisplay'] = row[4]
 
         if row[9] == 'server':
-            jsonDict[row[6]]['servers'].append(shiftDict)
+            jsonDict[row[7]][row[8]]['servers'].append(shiftDict)
         elif row[9] == 'bar':
-            jsonDict[row[6]]['bartenders'].append(shiftDict)
+            jsonDict[row[7]][row[8]]['bartenders'].append(shiftDict)
         elif row[9] == 'togo':
-            jsonDict[row[6]]['togo'].append(shiftDict)
+            jsonDict[row[7]][row8]]['togo'].append(shiftDict)
 
     if jsonDict:
         return func.HttpResponse(json.dumps(jsonDict))
