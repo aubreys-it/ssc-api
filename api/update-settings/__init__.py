@@ -14,10 +14,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         'togo',
         'bartenders',
         'autoRotateBar',
-        'inTimes'
+        'inTimes',
+        'mustCallInTimes'
     ]
 
-    quotedFields = ['togo', 'bartenders', 'inTimes'] 
+    quotedFields = ['togo', 'bartenders', 'inTimes', 'mustCallInTimes'] 
     fields = []
     fieldDict = {}
 
