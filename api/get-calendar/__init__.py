@@ -67,7 +67,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         elif row[9] == 'bar':
             jsonDict[row[7]][row[8]]['bartenders'].append(shiftDict)
         elif row[9] == 'togo':
-            jsonDict[row[7]][row8]]['togo'].append(shiftDict)
+            jsonDict[row[7]][row[8]]['togo'].append(shiftDict)
 
     if jsonDict:
         return func.HttpResponse(json.dumps(jsonDict))
