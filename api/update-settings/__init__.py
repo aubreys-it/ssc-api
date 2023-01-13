@@ -49,6 +49,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
         sql = sql[:len(sql)-1]
         sql += ' WHERE locId=' + fieldDict['locId'] + ' AND shiftId=' + fieldDict['shiftId'] + ';'
+        
+        logging.info(sql)
 
         conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
         cursor = conn.cursor()
