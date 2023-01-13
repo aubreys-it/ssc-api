@@ -52,7 +52,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             jsonDict[row[7]]['shiftDate'] = str(row[5])
             jsonDict[row[7]]['servers'] = []
             jsonDict[row[7]]['togo'] = []
-            jsonDict[row[]]['bartenders'] = []
+            jsonDict[row[7]]['bartenders'] = []
         '''
         
         shiftDict = {}
