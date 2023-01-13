@@ -37,6 +37,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             shifts[row[7]]['bartenders'] = row[4]
             shifts[row[7]]['autoRotateBar'] = row[5]
             shifts[row[7]]['inTimes'] = row[6]
+            shifts[row[7]]['shiftId'] = row[7]
             shifts[row[7]]['dayNumber'] = row[8]
             shifts[row[7]]['dayPart'] = row[9]
             shifts[row[7]]['locId'] = row[10]
