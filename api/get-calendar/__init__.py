@@ -44,8 +44,6 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 
             jsonDict[row[7]]['dayName'] = daysOfWeek[row[7] - 1]
         
-    
-    for row in records:
         '''
         if not row[7] in jsonDict.keys():
             jsonDict[row[7]] = {}
