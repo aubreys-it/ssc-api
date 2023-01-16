@@ -50,6 +50,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         shiftDict['displayName'] = row[2]
         shiftDict['shiftNumber'] = row[3]
         shiftDict['shiftDisplay'] = row[4]
+        shiftDict['inTimes'] = row[11]
 
         if row[9] == 'server':
             jsonDict[row[7]][row[8]]['servers'].append(shiftDict)
