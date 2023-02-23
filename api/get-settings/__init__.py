@@ -43,6 +43,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             shifts[row[7]]['locId'] = row[10]
             shifts[row[7]]['togoInTime'] = row[11]
             shifts[row[7]]['showHosts'] = row[12]
+            shifts[row[7]]['hosts'] = row[13]
 
     if shifts:
         return func.HttpResponse(json.dumps(shifts))
