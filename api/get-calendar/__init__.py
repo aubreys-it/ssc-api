@@ -40,6 +40,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 jsonDict[row[7]][dayPart]['servers'] = []
                 jsonDict[row[7]][dayPart]['togo'] = {'inTime': '', 'employees': []}
                 jsonDict[row[7]][dayPart]['bartenders'] = []
+                jsonDict[row[7]][dayPart]['hosts'] = []
                 
             jsonDict[row[7]]['dayName'] = daysOfWeek[row[7] - 1]
             jsonDict[row[7]]['shiftDate'] = row[5]
