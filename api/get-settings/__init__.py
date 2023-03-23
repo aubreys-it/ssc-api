@@ -44,6 +44,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             shifts[row[7]]['togoInTime'] = row[11]
             shifts[row[7]]['showHosts'] = row[12]
             shifts[row[7]]['hosts'] = row[13]
+            shifts[row[7]]['buildToShiftCount'] = row[14]
 
     if shifts:
         return func.HttpResponse(json.dumps(shifts))
