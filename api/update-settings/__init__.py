@@ -16,7 +16,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         'autoRotateBar',
         'inTimes',
         'togoInTime',
-        'hosts'
+        'hosts',
+        'buildToShiftCount'
     ]
 
     quotedFields = ['togo', 'bartenders', 'inTimes', 'togoInTime', 'togoInTime', 'hosts'] 
