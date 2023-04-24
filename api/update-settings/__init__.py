@@ -17,7 +17,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         'inTimes',
         'togoInTime',
         'hosts',
-        'buildToShiftCount'
+        'buildToShiftCount',
+        'manualRotationOffset'
     ]
 
     quotedFields = ['togo', 'bartenders', 'inTimes', 'togoInTime', 'togoInTime', 'hosts'] 
