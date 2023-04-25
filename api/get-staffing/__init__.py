@@ -16,7 +16,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         else:
             locId = req_body.get('locId')
 
-    sql = "SELECT shiftId, shift, serversAvailable, serversNeeded, filledShifts, CAST(percentStaffed AS NVARCHAR(10))  FROM ssc.staffing_levels WHERE locId=" + locId + " ORDER BY shiftId;"
+    sql = "SELECT shiftId, shift, serversAvailable, serversNeeded, filledShifts, CAST(percentStaffed AS NVARCHAR(10)), holes FROM ssc.staffing_levels WHERE locId=" + locId + " ORDER BY shiftId;"
 
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
@@ -35,7 +35,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             shifts[row[0]]['serversAvailable'] = row[2]
             shifts[row[0]]['serversNeeded'] = row[3]
             shifts[row[0]]['filledShifts'] = row[4]
-            shifts[row[0]]['percentStaffed'] = row[5]
+            shifts[row[0]]['percentStaffed'] = row[5],
+            shifts[row[0]]['holes'] = row[6]
             
     if shifts:
         return func.HttpResponse(json.dumps(shifts))
