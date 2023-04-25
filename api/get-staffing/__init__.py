@@ -16,7 +16,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         else:
             locId = req_body.get('locId')
 
-    sql = "SELECT * FROM ssc.staffing_levels WHERE locId=" + locId + " ORDER BY shiftId;"
+    sql = "SELECT shiftId, shift, serversAvailable, serversNeeded, filledShifts, CAST(percentStaffed AS NVARCHAR(10))  FROM ssc.staffing_levels WHERE locId=" + locId + " ORDER BY shiftId;"
 
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
@@ -28,14 +28,14 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     shifts = {}
 
     for row in rows:
-        if not row[2] in shifts.keys():
-            shifts[row[2]] = {}
-            shifts[row[2]]['shift'] = row[1]
-            shifts[row[2]]['shiftId'] = row[2]
-            shifts[row[2]]['serversAvailable'] = row[3]
-            shifts[row[2]]['serversNeeded'] = row[4]
-            shifts[row[2]]['filledShifts'] = row[5]
-            shifts[row[2]]['percentStaffed'] = row[6]
+        if not row[0] in shifts.keys():
+            shifts[row[0]] = {}
+            shifts[row[0]]['shiftId'] = row[0]
+            shifts[row[0]]['shift'] = row[1]
+            shifts[row[0]]['serversAvailable'] = row[2]
+            shifts[row[0]]['serversNeeded'] = row[3]
+            shifts[row[0]]['filledShifts'] = row[4]
+            shifts[row[0]]['percentStaffed'] = row[5]
             
     if shifts:
         return func.HttpResponse(json.dumps(shifts))
