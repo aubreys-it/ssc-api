@@ -56,6 +56,21 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             servers[rowId]['tfd']=str(row[22])
             servers[rowId]['ttd']=str(row[23])
             servers[rowId]['abcBookLocation']=row[24]
+            servers[rowId]['useNewRotation']=row[25]
+            servers[rowId]['monAmShiftNumber']=str(row[26])
+            servers[rowId]['monPmShiftNumber']=str(row[27])
+            servers[rowId]['tueAmShiftNumber']=str(row[28])
+            servers[rowId]['tuePmShiftNumber']=str(row[29])
+            servers[rowId]['wedAmShiftNumber']=str(row[30])
+            servers[rowId]['wedPmShiftNumber']=str(row[31])
+            servers[rowId]['thuAmShiftNumber']=str(row[32])
+            servers[rowId]['thuPmShiftNumber']=str(row[33])
+            servers[rowId]['friAmShiftNumber']=str(row[34])
+            servers[rowId]['friPmShiftNumber']=str(row[35])
+            servers[rowId]['satAmShiftNumber']=str(row[36])
+            servers[rowId]['satPmShiftNumber']=str(row[37])
+            servers[rowId]['sunAmShiftNumber']=str(row[38])
+            servers[rowId]['sunPmShiftNumber']=str(row[39])
 
             rowId += 1
 

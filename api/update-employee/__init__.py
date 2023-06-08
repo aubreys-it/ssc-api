@@ -32,7 +32,22 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         'sunPM',
         'tfd',
         'ttd',
-        'abcBookLocation'
+        'abcBookLocation',
+        'useNewRotation',
+        'monAmShiftNumber',
+        'monPmShiftNumber',
+        'tueAmShiftNumber',
+        'tuePmShiftNumber',
+        'wedAmShiftNumber',
+        'wedPmShiftNumber',
+        'thuAmShiftNumber',
+        'thuPmShiftNumber',
+        'friAmShiftNumber',
+        'friPmShiftNumber',
+        'satAmShiftNumber',
+        'satPmShiftNumber',
+        'sunAmShiftNumber',
+        'sunPmShiftNumber'
     ]
 
     quotedFields = ['firstName', 'lastName', 'displayName', 'phone', 'emailAddress', 'abcExpire', 'tfd', 'ttd', 'abcBookLocation']
