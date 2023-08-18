@@ -64,8 +64,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             availServers['displayName'] = row[3]
             availServers['shiftNumber'] = row[4]
 
-        shifts[i+1]['availableServers'] = availServers
-        availServers = {}
+            shifts[i+1]['availableServers'] = availServers
+            availServers = {}
         
     cursor.close()
     conn.close()
