@@ -72,6 +72,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     cursor.close()
     conn.close()
 
+    logging.info(shifts)
+    
     if shifts:
         return func.HttpResponse(json.dumps(shifts))
     
