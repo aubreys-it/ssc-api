@@ -18,7 +18,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     availShiftColumns = ['monAm', 'monPm', 'tueAm', 'tuePm', 'wedAm', 'wedPm', 'thuAm', 'thuPm', 'friAm', 'friPm', 'satAm', 'satPm', 'sunAm', 'sunPm']
     shiftNumberColumns = ['monAMShiftNumber', 'monPMShiftNumber', 'tueAMShiftNumber', 'tuePMShiftNumber', 'wedAMShiftNumber', 'wedPMShiftNumber', 'thuAMShiftNumber', 'thuPMShiftNumber', 'friAMShiftNumber', 'friPMShiftNumber', 'satAMShiftNumber', 'satPMShiftNumber', 'sunAMShiftNumber', 'sunPMShiftNumber']
-    availServers = []
+    availServers = {}
 
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
@@ -58,22 +58,20 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         rows = cursor.fetchall()
 
         for row in rows:
-            availServers.append({
-                'empId': row[0],
-                'firstName': row[1],
-                'lastName': row[2],
-                'displayName': row[3],
-                'shiftNumber': row[4]
-            })
+            availServers['empId'] = row[0]
+            availServers['firstName'] = row[1]
+            availServers['lastName'] = row[2]
+            availServers['displayName'] = row[3]
+            availServers['shiftNumber'] = row[4]
 
-        shifts[availShiftColumns[i]] = availServers
-        availServers = []
+        shifts[i+1] = availServers
+        availServers = {}
         
     cursor.close()
     conn.close()
 
     logging.info(shifts)
-    
+
     if shifts:
         return func.HttpResponse(json.dumps(shifts))
     
