@@ -16,15 +16,18 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         else:
             locId = req_body.get('locId')
 
-    sql = "SELECT * FROM ssc.schedule_settings WHERE locId=" + locId + " ORDER BY shiftId;"
+    availShiftColumns = ['monAm', 'monPm', 'tueAm', 'tuePm', 'wedAm', 'wedPm', 'thuAm', 'thuPm', 'friAm', 'friPm', 'satAm', 'satPm', 'sunAm', 'sunPm']
+    shiftNumberColumns = ['monAMShiftNumber', 'monPMShiftNumber', 'tueAMShiftNumber', 'tuePMShiftNumber', 'wedAMShiftNumber', 'wedPMShiftNumber', 'thuAMShiftNumber', 'thuPMShiftNumber', 'friAMShiftNumber', 'friPMShiftNumber', 'satAMShiftNumber', 'satPMShiftNumber', 'sunAMShiftNumber', 'sunPMShiftNumber']
+    availServers = []
 
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
+    
+    sql = "SELECT * FROM ssc.schedule_settings WHERE locId=" + locId + " ORDER BY shiftId;"
+    
     cursor.execute(sql)
     rows = cursor.fetchall()
-    cursor.close()
-    conn.close()
-
+    
     shifts = {}
 
     for row in rows:
@@ -46,6 +49,28 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             shifts[row[7]]['hosts'] = row[13]
             shifts[row[7]]['buildToShiftCount'] = row[14]
             shifts[row[7]]['manualRotationOffset'] = row[15]
+
+    for i in range(0, len(availShiftColumns)):
+        sql  = "SELECT empId, firstName, lastName, displayName, " + shiftNumberColumns[i] + " FROM ssc.server_info \
+                WHERE " + availShiftColumns[i] + "=1 AND locId=" + locId + " ORDER BY " + shiftNumberColumns[i] + ";"
+        
+        cursor.execute(sql)
+        rows = cursor.fetchall()
+
+        for row in rows:
+            availServers.append({
+                'empId': row[0],
+                'firstName': row[1],
+                'lastName': row[2],
+                'displayName': row[3],
+                'shiftNumber': row[4]
+            })
+
+        shifts[availShiftColumns[i]] = availServers
+        availServers = []
+        
+    cursor.close()
+    conn.close()
 
     if shifts:
         return func.HttpResponse(json.dumps(shifts))
