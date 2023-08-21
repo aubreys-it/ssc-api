@@ -49,6 +49,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             shifts[row[7]]['hosts'] = row[13]
             shifts[row[7]]['buildToShiftCount'] = row[14]
             shifts[row[7]]['manualRotationOffset'] = row[15]
+            shifts[row[7]]['availableServers'] = []
 
     for i in range(0, len(availShiftColumns)):
         sql  = "SELECT empId, firstName, lastName, displayName, " + shiftNumberColumns[i] + " FROM ssc.server_info \
@@ -64,8 +65,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             availServers['displayName'] = row[3]
             availServers['shiftNumber'] = row[4]
 
-        shifts[i+1]['availableServers'] = availServers
-        availServers = {}
+            shifts[i+1]['availableServers'].append(availServers)
+            availServers = {}
         
     cursor.close()
     conn.close()
