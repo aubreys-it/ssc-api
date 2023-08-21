@@ -2,6 +2,7 @@ import logging
 import os
 import pyodbc
 import azure.functions as func
+import json
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
@@ -75,9 +76,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 else:
                     sql += field + "=" + fieldDict[field] + ","
             elif field == 'serverJson':
-                for server in fieldDict[field]:
+                serverJson = json.loads(fieldDict[field])
+                for server in serverJson:
                     jsonSql = "UPDATE ssc.server_info SET " + shiftNumberColumns[int(fieldDict['shiftId'])] + \
-                        "=" + str(fieldDict[field][server]['shiftNumber']) + " WHERE empId=" + str(fieldDict[field][server]['empId']) + \
+                        "=" + str(server['shiftNumber']) + " WHERE empId=" + str(server['empId']) + \
                         " AND shiftId=" + fieldDict['shiftId'] + ";"        
                     
                     logging.info(jsonSql)
