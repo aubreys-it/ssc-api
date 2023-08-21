@@ -77,7 +77,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
             elif field == 'serverJson':
                 for server in fieldDict[field]:
                     jsonSql = "UPDATE ssc.server_info SET " + shiftNumberColumns[int(fieldDict['shiftId'])] + \
-                        "=" + str(server['shiftNumber']) + " WHERE empId=" + str(server['empId']) + \
+                        "=" + str(fieldDict[field][server]['shiftNumber']) + " WHERE empId=" + str(fieldDict[field][server]['empId']) + \
                         " AND shiftId=" + fieldDict['shiftId'] + ";"        
                     
                     logging.info(jsonSql)
