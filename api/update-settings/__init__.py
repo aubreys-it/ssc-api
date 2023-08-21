@@ -58,6 +58,9 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if fieldDict[field] != 'None':
             fields.append(field)
 
+    logging.info(fieldDict)
+    logging.info(fields)
+
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
 
