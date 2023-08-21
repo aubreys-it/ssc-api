@@ -18,7 +18,25 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         'togoInTime',
         'hosts',
         'buildToShiftCount',
-        'manualRotationOffset'
+        'manualRotationOffset',
+        'serverJson'
+    ]
+
+    shiftNumberColumns = [
+        'monAMShiftNumber',
+        'monPMShiftNumber',
+        'tueAMShiftNumber',
+        'tuePMShiftNumber',
+        'wedAMShiftNumber',
+        'wedPMShiftNumber',
+        'thuAMShiftNumber',
+        'thuPMShiftNumber',
+        'friAMShiftNumber',
+        'friPMShiftNumber',
+        'satAMShiftNumber',
+        'satPMShiftNumber',
+        'sunAMShiftNumber',
+        'sunPMShiftNumber'
     ]
 
     quotedFields = ['togo', 'bartenders', 'inTimes', 'togoInTime', 'togoInTime', 'hosts'] 
@@ -40,25 +58,39 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if fieldDict[field] != 'None':
             fields.append(field)
 
+    conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
+    cursor = conn.cursor()
+
     if 'locId' in fieldDict.keys() and 'shiftId' in fieldDict.keys():
+
         sql = "UPDATE ssc.schedule_settings SET "
         
         for field in fields:
-            if field not in ['locId', 'shiftId']:
+            if field not in ['locId', 'shiftId', 'serverJson']:
                 if field in quotedFields:
                     sql += field + "='" + fieldDict[field] + "',"
                 else:
                     sql += field + "=" + fieldDict[field] + ","
+            elif field == 'serverJson':
+                for server in fieldDict[field]:
+                    jsonSql = "UPDATE ssc.server_info SET " + shiftNumberColumns[fieldDict['shiftId']] + \
+                        "=" + str(server['shiftNumber']) + " WHERE serverId=" + str(server['serverId']) + \
+                        " AND shiftId=" + fieldDict['shiftId'] + ";"        
+                    
+                    logging.info(jsonSql)
+                    cursor.execute(jsonSql)
+                    conn.commit()
+
         
         sql = sql[:len(sql)-1]
         sql += ' WHERE locId=' + fieldDict['locId'] + ' AND shiftId=' + fieldDict['shiftId'] + ';'
         
         logging.info(sql)
 
-        conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
-        cursor = conn.cursor()
+        
         cursor.execute(sql)
         conn.commit()
+
         
         cursor.close()
         conn.close()
