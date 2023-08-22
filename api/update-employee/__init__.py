@@ -86,6 +86,13 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         cursor = conn.cursor()
         cursor.execute(sql)
         conn.commit()
+
+        sql = "EXEC ssc.updateServerShifts " + fieldDict['empId'] + ";"
+        cursor.execute(sql)
+        conn.commit()
+
+        cursor.close()
+        conn.close()
     
         return func.HttpResponse(
             "success",
