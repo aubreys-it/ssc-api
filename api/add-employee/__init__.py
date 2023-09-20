@@ -24,7 +24,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                 pass
             else:
                 itemDict[item] = str(req_body.get(item))
-
+    
+    itemDict['tfd'] = '1900-01-01'
+    itemDict['ttd'] = '9999-12-31'
+    
     for item in itemDict:
         items.append(item)
 
