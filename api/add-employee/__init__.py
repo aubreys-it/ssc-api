@@ -52,6 +52,16 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     count = cursor.execute(sql)
     conn.commit()
     
+    sql = f"SELECT ssc.getEmpId({itemDict['locId']}, '{itemDict['firstName']}', '{itemDict['lastName']}') AS empId;"
+    cursor.execute(sql)
+    row = cursor.fetchone()
+    empId = row.empId
+
+    sql = f"EXEC ssc.updateIndividualServerShifts {empId};"
+    cursor.execute(sql)
+
+    conn.close()
+
     return func.HttpResponse(
         "success",
         status_code=200
