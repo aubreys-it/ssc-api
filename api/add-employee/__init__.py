@@ -53,12 +53,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     conn.commit()
     
     sql = f"SELECT ssc.getEmpId({itemDict['locId']}, '{itemDict['firstName']}', '{itemDict['lastName']}') AS empId;"
-    cursor.execute(sql)
+    #cursor.execute(sql)
     row = cursor.fetchone()
     empId = row.empId
 
     sql = f"EXEC ssc.updateIndividualServerShifts {empId};"
-    cursor.execute(sql)
+    #cursor.execute(sql)
 
     conn.close()
 
