@@ -87,7 +87,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         cursor.execute(sql)
         conn.commit()
 
-        sql = "EXEC ssc.updateServerShifts " + fieldDict['empId'] + ";"
+        sql = "EXEC ssc.updateIndividualServerShifts " + fieldDict['empId'] + ";"
         cursor.execute(sql)
         conn.commit()
 
