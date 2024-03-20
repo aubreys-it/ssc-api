@@ -112,7 +112,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         # update manualRotationOffset for locations running v2 of ssc
         if fieldDict['locId'] in ('0', '2', '12', '13', '14', '17', '18'):
             if oldBTSC != newBTSC:
-                sql = "UPDATE ssc.schedule_settings SET manualRotationOffset=" + str(oldBTSC - newBTSC)
+                sql = "UPDATE ssc.schedule_settings SET manualRotationOffset=manualRotationOffset + " + str(oldBTSC - newBTSC)
                 sql += " WHERE locId=" + fieldDict['locId'] + " AND shiftId=" + fieldDict['shiftId'] + ";"
                 logging.info("Update BTSC")
                 logging.info(sql)
