@@ -59,8 +59,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if fieldDict[field] != 'None':
             fields.append(field)
 
-    logging.info(fieldDict)
-    logging.info(fields)
+    #logging.info(fieldDict)
+    #logging.info(fields)
 
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
@@ -69,8 +69,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         # get buildToShiftCount before update
         sql = "SELECT buildToShiftCount FROM ssc.schedule_settings WHERE locId=" + fieldDict['locId'] + " AND shiftId=" + fieldDict['shiftId'] + ";"
+        logging.info("Old BTSC")
+        logging.info(sql)
         cursor.execute(sql)
         oldBTSC = cursor.fetchone()[0]
+        logging.info(str(oldBTSC))
 
         sql = "UPDATE ssc.schedule_settings SET "
         
@@ -86,7 +89,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     jsonSql = "UPDATE ssc.server_info SET " + shiftNumberColumns[int(fieldDict['shiftId'])-1] + \
                         "=" + str(server['shiftNumber']) + " WHERE empId=" + str(server['empId']) + ";"        
                     
-                    logging.info(jsonSql)
+                    #logging.info(jsonSql)
                     cursor.execute(jsonSql)
                     conn.commit()
 
@@ -100,13 +103,18 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
         # get buildToShiftCount after update
         sql = "SELECT buildToShiftCount FROM ssc.schedule_settings WHERE locId=" + fieldDict['locId'] + " AND shiftId=" + fieldDict['shiftId'] + ";"
+        logging.info("New BTSC")
+        logging.info(sql)
         cursor.execute(sql)
         newBTSC = cursor.fetchone()[0]
+        logging.info(str(newBTSC))
 
         # update manualRotationOffset for locations running v2 of ssc
         if fieldDict['locId'] in (0, 2, 12, 13, 14, 17, 18):
             sql = "UPDATE ssc.schedule_settings SET manualRotationOffset=" + str(oldBTSC - newBTSC)
             sql += " WHERE locId=" + fieldDict['locId'] + " AND shiftId=" + fieldDict['shiftId'] + ";"
+            logging.info("Update BTSC")
+            logging.info(sql)
         cursor.execute(sql)
 
         conn.commit()
