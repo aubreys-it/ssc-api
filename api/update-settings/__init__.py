@@ -96,6 +96,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
         logging.info(sql)
         cursor.execute(sql)
+        conn.commit()
 
         # get buildToShiftCount after update
         sql = "SELECT buildToShiftCount FROM ssc.schedule_settings WHERE locId=" + fieldDict['locId'] + " AND shiftId=" + fieldDict['shiftId'] + ";"
