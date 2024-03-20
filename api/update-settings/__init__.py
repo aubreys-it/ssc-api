@@ -67,6 +67,11 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
 
     if 'locId' in fieldDict.keys() and 'shiftId' in fieldDict.keys():
 
+        # get buildToShiftCount before update
+        sql = "SELECT buildToShiftCount FROM ssc.schedule_settings WHERE locId=" + fieldDict['locId'] + " AND shiftId=" + fieldDict['shiftId'] + ";"
+        cursor.execute(sql)
+        oldBTSC = cursor.fetchone()[0]
+
         sql = "UPDATE ssc.schedule_settings SET "
         
         for field in fields:
@@ -90,11 +95,20 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         sql += ' WHERE locId=' + fieldDict['locId'] + ' AND shiftId=' + fieldDict['shiftId'] + ';'
         
         logging.info(sql)
-
-        
         cursor.execute(sql)
-        conn.commit()
 
+        # get buildToShiftCount after update
+        sql = "SELECT buildToShiftCount FROM ssc.schedule_settings WHERE locId=" + fieldDict['locId'] + " AND shiftId=" + fieldDict['shiftId'] + ";"
+        cursor.execute(sql)
+        newBTSC = cursor.fetchone()[0]
+
+        # update manualRotationOffset for locations running v2 of ssc
+        if fieldDict['locId'] in (0, 2, 12, 13, 14, 17, 18):
+            sql = "UPDATE ssc.schedule_settings SET manualRotationOffset=" + str(oldBTSC - newBTSC)
+            sql += " WHERE locId=" + fieldDict['locId'] + " AND shiftId=" + fieldDict['shiftId'] + ";"
+        cursor.execute(sql)
+
+        conn.commit()
         
         cursor.close()
         conn.close()
