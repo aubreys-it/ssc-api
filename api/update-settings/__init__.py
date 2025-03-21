@@ -6,6 +6,7 @@ import json
 
 def main(req: func.HttpRequest) -> func.HttpResponse:
     logging.info('Python HTTP trigger function processed a request.')
+    logging.info(req.params.get(field))
 
     possFields = [
         'locId',
