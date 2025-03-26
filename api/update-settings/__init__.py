@@ -59,8 +59,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         if fieldDict[field] != 'None':
             fields.append(field)
 
-    #logging.info(fieldDict)
-    #logging.info(fields)
+    logging.info(fieldDict)
+    logging.info(fields)
 
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
@@ -89,7 +89,7 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
                     jsonSql = "UPDATE ssc.server_info SET " + shiftNumberColumns[int(fieldDict['shiftId'])-1] + \
                         "=" + str(server['shiftNumber']) + " WHERE empId=" + str(server['empId']) + ";"        
                     
-                    #logging.info(jsonSql)
+                    logging.info(jsonSql)
                     cursor.execute(jsonSql)
                     conn.commit()
 
