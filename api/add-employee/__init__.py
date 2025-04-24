@@ -50,6 +50,10 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
     cursor = conn.cursor()
     count = cursor.execute(sql)
+
+    sqlLog = f"INSERT INTO ssc.sql_log (apiId, sqlCmd) VALUES ('add-employee', '{sql}');"
+    log = cursor.execute(sqlLog)
+    
     conn.commit()
     
     sql = f"SELECT ssc.getEmpId({itemDict['locId']}, '{itemDict['firstName']}', '{itemDict['lastName']}') AS empId;"
