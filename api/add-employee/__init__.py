@@ -51,7 +51,8 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
     cursor = conn.cursor()
     count = cursor.execute(sql)
     logging.info(sql)
-    sqlLog = f"INSERT INTO ssc.sql_log (apiId, sqlCmd) VALUES ('add-employee', '{sql.replace("'",":")}');"
+    sql = sql.replace("'",":")
+    sqlLog = f"INSERT INTO ssc.sql_log (apiId, sqlCmd) VALUES ('add-employee', '{sql}');"
     logging.info(sqlLog)
     log = cursor.execute(sqlLog)
 
