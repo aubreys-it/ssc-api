@@ -85,6 +85,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         conn = pyodbc.connect(os.environ['DMCP_CONNECT_STRING'])
         cursor = conn.cursor()
         cursor.execute(sql)
+        logging.info(sql)
+        sql = sql.replace("'",":")
+        sqlLog = f"INSERT INTO ssc.sql_log (apiId, sqlCmd) VALUES ('update-employee', '{sql}');"
+        logging.info(sqlLog)
+        log = cursor.execute(sqlLog)
+
         conn.commit()
 
         sql = "EXEC ssc.updateIndividualServerShifts " + fieldDict['empId'] + ";"

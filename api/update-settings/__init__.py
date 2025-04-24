@@ -99,6 +99,12 @@ def main(req: func.HttpRequest) -> func.HttpResponse:
         
         logging.info(sql)
         cursor.execute(sql)
+        logging.info(sql)
+        sql = sql.replace("'",":")
+        sqlLog = f"INSERT INTO ssc.sql_log (apiId, sqlCmd) VALUES ('update-settings', '{sql}');"
+        logging.info(sqlLog)
+        log = cursor.execute(sqlLog)
+
         conn.commit()
 
         # get buildToShiftCount after update
